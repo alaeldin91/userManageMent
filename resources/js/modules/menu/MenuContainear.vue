@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper menu__container">
+  <div class="container">
     <div class="row">
       <div class="col-md-8">
         <cardcontainear>
@@ -9,14 +9,19 @@
               <multiselect :options="catpgries" v-model="menu"> </multiselect>
             </div>
 
+
             <menu-group :items="currentMenuItem"> </menu-group>
           </template>
         </cardcontainear>
       </div>
+    
       <div class="col-md-4"></div>
       <cardcontainear>
         <template slot="title">Add Menu Items </template>
-        <template slot="body">Form Will Come Here </template>
+        <template slot="main">
+          <menu-form :catogries="catpgries"></menu-form>
+
+        </template>
       </cardcontainear>
     </div>
   </div>
