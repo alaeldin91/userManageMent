@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "autoprefixer": "10.4.5",
-        "install": "^0.13.0"
+        "install": "^0.13.0",
+        "vue-multiselect": "^2.1.6"
     }
 }
