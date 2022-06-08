@@ -8,10 +8,4 @@ Orders
 ===========================
 Custom Details
 
-
-Menu
-====================
--name of the dish
--price of the dish
--description of the dish
--image
+owner=>

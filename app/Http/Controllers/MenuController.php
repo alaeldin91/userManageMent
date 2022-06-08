@@ -16,12 +16,14 @@ class MenuController extends Controller
             'restoId' => 'required|numeric',
             'catogry' => 'required',
             'price' => 'required|numeric',
-            'item' => ['required']
+
+            'item' => 'required'
         ]);
         $catogry =Catogry::where('resto_id',$postData['restoId'])->where('name',$postData['catogry'])->first();
         $menu = Menu::create([
             'name'=> $postData['item'],
             'price'=> $postData['price'],
+            'description'=> '',
             'resto_id'=> $postData['restoId'],
              'catogry_id' => $catogry->id
         ]);
