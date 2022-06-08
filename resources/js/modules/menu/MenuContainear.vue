@@ -41,7 +41,7 @@ export default {
     });
     this.menu = this.catpgries[0];
   },
-  props: ["items"],
+  props: ["items","restoId"],
   data() {
     return {
       catpgries: [],

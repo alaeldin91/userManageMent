@@ -5344,7 +5344,7 @@ __webpack_require__.r(__webpack_exports__);
 
     this.menu = this.catpgries[0];
   },
-  props: ["items"],
+  props: ["items", "restoId"],
   data: function data() {
     return {
       catpgries: [],
@@ -5373,6 +5373,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-multiselect */ "./node_modules/vue-multiselect/dist/vue-multiselect.min.js");
 /* harmony import */ var vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_multiselect__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _utils_validation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../../utils/validation */ "./resources/js/utils/validation.js");
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -5401,23 +5411,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ["catogries"],
+  props: ["catogries", 'restoId'],
   data: function data() {
     return {
       food: {
         catogry: "",
         item: "",
         price: 100
-      }
+      },
+      validations: new _utils_validation__WEBPACK_IMPORTED_MODULE_1__["default"]()
     };
   },
   components: {
-    Multiselect: (vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default())
+    Multiselect: (vue_multiselect__WEBPACK_IMPORTED_MODULE_0___default()),
+    Validation: _utils_validation__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   methods: {
     handleSubmit: function handleSubmit() {
+      var _this = this;
+
       console.log('form group', this.food);
+      var postData = this.food;
+      postData.restoId = 1;
+      console.log(postData.restoId);
+      window.axios.post('api/item/save', postData).then(function (response) {
+        console.log('response', response.data);
+      })["catch"](function (error) {
+        console.log('error', error.response);
+
+        if (error.response.status == 422) {
+          _this.validations.setMessage(error.response.data.errors);
+        }
+      });
     }
   }
 });
@@ -5521,6 +5548,56 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/utils/validation.js":
+/*!******************************************!*\
+  !*** ./resources/js/utils/validation.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ validation)
+/* harmony export */ });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+var validation = /*#__PURE__*/function () {
+  function validation() {
+    _classCallCheck(this, validation);
+
+    this.message = {};
+  }
+
+  _createClass(validation, [{
+    key: "getMessage",
+    value: function getMessage(field) {
+      if (this.message[field]) {
+        return this.message[field][0];
+      }
+    }
+  }, {
+    key: "setMessage",
+    value: function setMessage(message) {
+      this.message = message;
+    }
+  }, {
+    key: "empty",
+    value: function empty() {
+      this.message;
+    }
+  }]);
+
+  return validation;
+}();
+
+
 
 /***/ }),
 
@@ -28908,6 +28985,13 @@ var render = function () {
               },
             },
           }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "validation-message",
+            domProps: {
+              textContent: _vm._s(_vm.validations.getMessage("item")),
+            },
+          }),
         ]),
         _vm._v(" "),
         _c(
@@ -28926,6 +29010,13 @@ var render = function () {
                   _vm.$set(_vm.food, "catogry", $$v)
                 },
                 expression: "food.catogry",
+              },
+            }),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "validation-message",
+              domProps: {
+                textContent: _vm._s(_vm.validations.getMessage("catogry")),
               },
             }),
           ],
@@ -28954,6 +29045,13 @@ var render = function () {
                 }
                 _vm.$set(_vm.food, "price", $event.target.value)
               },
+            },
+          }),
+          _vm._v(" "),
+          _c("div", {
+            staticClass: "validation-message",
+            domProps: {
+              textContent: _vm._s(_vm.validations.getMessage("price")),
             },
           }),
         ]),
